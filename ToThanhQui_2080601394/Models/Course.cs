@@ -10,6 +10,8 @@ namespace ToThanhQui_2080601394.Models
     {
         public int Id { get; set; }
 
+        public bool IsCancel { get; set; }
+
         public ApplicationUser Lecturer { get; set; }
         [Required]
 

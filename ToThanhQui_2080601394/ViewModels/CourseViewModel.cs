@@ -9,6 +9,7 @@ namespace ToThanhQui_2080601394.ViewModels
 {
     public class CourseViewModel
     {
+        public int Id { get; set; } = -1;
         [Required]
         [FutureDate]
         public string Date { get; set; }
@@ -27,7 +28,14 @@ namespace ToThanhQui_2080601394.ViewModels
             return DateTime.Parse(string.Format("{0} {1}", Date, Time));
         }
 
-
+        public string Heading { get; set; }
+        public string Action
+        {
+            get
+            {
+                return Id == -1 ? "Create" : "Edit";
+            }
+        }
 
 }
 }

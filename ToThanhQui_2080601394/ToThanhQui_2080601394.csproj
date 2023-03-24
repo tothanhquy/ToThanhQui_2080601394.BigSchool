@@ -50,12 +50,21 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.9.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.9\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Http, Version=5.2.9.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.9\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.9.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.9\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
@@ -168,10 +177,17 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\Api\CoursesController.cs" />
+    <Compile Include="Controllers\AttendancesController.cs" />
     <Compile Include="Controllers\CoursesController.cs" />
+    <Compile Include="Controllers\FollowingsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LecturesController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="DTOs\AttendanceDto.cs" />
+    <Compile Include="DTOs\FollowingDto.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -191,15 +207,30 @@
     <Compile Include="Migrations\202303150826026_addnametotable.designer.cs">
       <DependentUpon>202303150826026_addnametotable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202303220626102_createAttendenceTable.cs" />
+    <Compile Include="Migrations\202303220626102_createAttendenceTable.designer.cs">
+      <DependentUpon>202303220626102_createAttendenceTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202303220835363_addFollowing.cs" />
+    <Compile Include="Migrations\202303220835363_addFollowing.designer.cs">
+      <DependentUpon>202303220835363_addFollowing.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202303240425463_addIsCancelColumn.cs" />
+    <Compile Include="Migrations\202303240425463_addIsCancelColumn.designer.cs">
+      <DependentUpon>202303240425463_addIsCancelColumn.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
+    <Compile Include="Models\Attendance.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Course.cs" />
+    <Compile Include="Models\Following.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\CoursesViewModel.cs" />
     <Compile Include="ViewModels\CourseViewModel.cs" />
     <Compile Include="ViewModels\FutureTime.cs" />
     <Compile Include="ViewModels\FutureDate.cs" />
@@ -229,6 +260,12 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Scripts\bootbox.all.js" />
+    <Content Include="Scripts\bootbox.all.min.js" />
+    <Content Include="Scripts\bootbox.js" />
+    <Content Include="Scripts\bootbox.locales.js" />
+    <Content Include="Scripts\bootbox.locales.min.js" />
+    <Content Include="Scripts\bootbox.min.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.esm.js" />
@@ -281,6 +318,9 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Courses\Create.cshtml" />
+    <Content Include="Views\Courses\Attending.cshtml" />
+    <Content Include="Views\Lectures\Following.cshtml" />
+    <Content Include="Views\Courses\Mine.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202303091633117_create table.resx">
@@ -294,6 +334,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202303150826026_addnametotable.resx">
       <DependentUpon>202303150826026_addnametotable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202303220626102_createAttendenceTable.resx">
+      <DependentUpon>202303220626102_createAttendenceTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202303220835363_addFollowing.resx">
+      <DependentUpon>202303220835363_addFollowing.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202303240425463_addIsCancelColumn.resx">
+      <DependentUpon>202303240425463_addIsCancelColumn.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

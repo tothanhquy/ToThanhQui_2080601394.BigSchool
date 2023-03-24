@@ -1,7 +1,7 @@
 ﻿@model ToThanhQui_2080601394.ViewModels.CoursesViewModel
 
 @{
-    ViewBag.Title = "Home";
+    ViewBag.Title = "Attending";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @section Styles{
@@ -13,15 +13,13 @@
         .unfollow {
             color: #fd7e14;
         }
-
-        .js-toggle-attendance.unattend {
+        .js-toggle-attendance.unattend{
             background-color: burlywood;
         }
     </style>
 
 }
-
-<h2>Coming soon</h2>
+<h2>Attending</h2>
 <div class="home-container">
 
     @foreach (var item in Model.UpcomingCourses)
@@ -47,21 +45,13 @@
                     }
                 }
             </div>
-            @{ var isAttend = Model.AttendingCoursesId.IndexOf(item.Id) != -1;}
             @if (Model.ShowAction)
             {
-                if (isAttend)
-                {
-                    <button data-course-id="@item.Id" class="btn button-info unattend js-toggle-attendance">Going</button>
-
-                }
-                else
-                {
-                    <button data-course-id="@item.Id" class="btn button-default js-toggle-attendance">Attend</button>
-                }
+                <button data-course-id="@item.Id" class="btn button-info unattend js-toggle-attendance">Going</button>
             }
         </div>
     }
+
 </div>
 
 @section Scripts{
@@ -69,6 +59,13 @@
         $(document).ready(function () {
             $(".js-toggle-attendance").click(function (e) {
                 var btn = $(e.target);
+                //$.post("/api/Attendances", { CourseId: btn.attr("data-course-id") })
+                //    .done(function () {
+                //        btn.removeClass("button-default")
+                //            .addClass("button-info")
+                //            .text("Ungoing");
+                //    })
+                //    .fail(function () { alert("something faild!") });
                 if (btn.hasClass("unattend")) {
                     $.ajax({
                         url: "/api/Attendances?courseId=" + btn.attr("data-course-id"),
@@ -95,6 +92,13 @@
             });
             $(".js-toggle-follow").click(function (e) {
                 var btn = $(e.target);
+                //$.post("/api/Followings", { FolloweeId: btn.attr("data-user-id") })
+                //    .done(function () {
+                //        btn.removeClass("status-default")
+                //            .addClass("status-info")
+                //            .text("Following");
+                //    })
+                //    .fail(function () { alert("something faild!") });
                 if (btn.hasClass("unfollow")) {
                     $.ajax({
                         url: "/api/Followings?FolloweeId=" + btn.attr("data-user-id"),

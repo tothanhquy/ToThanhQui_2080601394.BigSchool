@@ -1,0 +1,72 @@
+﻿@model IEnumerable<ToThanhQui_2080601394.Models.ApplicationUser>
+
+@{
+    ViewBag.Title = "Following";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Styles{
+    <style>
+        .btn {
+            color: #17a2b8;
+        }
+
+        .unfollow {
+            color: #fd7e14;
+        }
+    </style>
+    
+}
+<h2>Following</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            Lectures
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                <button data-user-id="@item.Id" class="btn js-toggle-follow unfollow">Unfollow</button>
+            </td>
+        </tr>
+    }
+
+</table>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $(".js-toggle-follow").click(function (e) {
+                var btn = $(e.target);
+                if (btn.hasClass("unfollow")) {
+                    $.ajax({
+                        url: "/api/Followings?FolloweeId=" + btn.attr("data-user-id"),
+                        type: "DELETE", // <- Change here
+                    }).done(function (result) {
+                        btn.removeClass("unfollow")
+                            .text("Follow");
+                    }).fail(function () {
+                        alert("something faild!")
+                    });
+                } else {
+                    $.post("/api/Followings", { FolloweeId: btn.attr("data-user-id") })
+                        .done(function () {
+                            btn.addClass("unfollow")
+                                .text("Unfollow");
+                        })
+                        .fail(function () { alert("something faild!") });
+
+                }
+                
+            });
+        });
+    </script>
+
+} 
